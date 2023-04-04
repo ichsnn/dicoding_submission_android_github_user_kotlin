@@ -1,4 +1,4 @@
-package com.app.githubuser.activity.githubuserdetail
+package com.app.githubuser.ui.githubuserdetail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,17 +28,17 @@ class GithubUserDetailActivity : AppCompatActivity() {
         binding = ActivityGithubUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        username = intent.getStringExtra(EXTRA_USERNAME).toString()
-
-        githubUserDetailViewModel.getUserDetail(username)
-
-        githubUserDetailViewModel.userDetail.observe(this) {
-            setUserDetail(it)
-        }
-
-        githubUserDetailViewModel.isLoading.observe(this) {
-            showLoadingPage(it)
-        }
+        // username = intent.getStringExtra(EXTRA_USERNAME).toString()
+        //
+        // githubUserDetailViewModel.getUserDetail(username)
+        //
+        // githubUserDetailViewModel.userDetail.observe(this) {
+        //     setUserDetail(it)
+        // }
+        //
+        // githubUserDetailViewModel.isLoading.observe(this) {
+        //     showLoadingPage(it)
+        // }
 
         showTabs()
     }
@@ -68,7 +68,7 @@ class GithubUserDetailActivity : AppCompatActivity() {
             tvFollowersCount.text = userDetail.followers.toString()
             // Following count detail
             tvFollowingCount.text = userDetail.following.toString()
-            Glide.with(this@GithubUserDetailActivity).load(userDetail.avatar).apply(RequestOptions().circleCrop())
+            Glide.with(this@GithubUserDetailActivity).load(userDetail.avatarUrl).apply(RequestOptions().circleCrop())
                 .into(imgAvatar)
         }
     }

@@ -1,4 +1,4 @@
-package com.app.githubuser.service
+package com.app.githubuser.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,8 +11,9 @@ class ApiConfig {
         fun getApiService(): ApiService {
             val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            val accessToken = BuildConfig.API_KEY
             val client = OkHttpClient.Builder()
-                .addInterceptor(AuthInterceptor(BuildConfig.API_KEY))
+                .addInterceptor(AuthInterceptor(accessToken))
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()

@@ -1,4 +1,4 @@
-package com.app.githubuser.activity.githubuserdetail
+package com.app.githubuser.ui.githubuserdetail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

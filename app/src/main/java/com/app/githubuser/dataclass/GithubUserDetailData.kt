@@ -2,9 +2,9 @@ package com.app.githubuser.dataclass
 
 data class GithubUserDetailData(
     val username: String?,
-    val avatar: String?,
+    val avatarUrl: String?,
     val name: String?,
     val bio: Any?,
-    val followers: Int?,
-    val following: Int?
+    val followers: Int = 0,
+    val following: Int = 0,
 )

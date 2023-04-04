@@ -1,4 +1,4 @@
-package com.app.githubuser.utils
+package com.app.githubuser.helpers
 
 import android.view.View
 import android.view.ViewTreeObserver

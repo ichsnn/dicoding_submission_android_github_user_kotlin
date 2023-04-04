@@ -1,4 +1,4 @@
-package com.app.githubuser.activity.githubuserdetail
+package com.app.githubuser.ui.githubuserdetail
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubuser.R
 import com.app.githubuser.adapter.ListGithubUserAdapter
 import com.app.githubuser.databinding.FragmentGithubUserListBinding
-import com.app.githubuser.dataclass.ListGithubUserData
+import com.app.githubuser.dataclass.GithubUserListData
 
 class GithubUserListFragment : Fragment() {
     private lateinit var binding: FragmentGithubUserListBinding
@@ -32,34 +31,34 @@ class GithubUserListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments?.let {
-            position = it.getInt(ARG_POSITION)
-            username = it.getString(ARG_USERNAME).toString()
-        }
-
-        val githubUserDetailViewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.NewInstanceFactory()
-            )[GithubUserDetailViewModel::class.java]
-
-        if (position == 1) {
-            githubUserDetailViewModel.getListFollowers(username)
-        } else {
-            githubUserDetailViewModel.getListFollowing(username)
-        }
-
-        githubUserDetailViewModel.listUser.observe(viewLifecycleOwner) {
-            setListGithubUser(it)
-        }
-
-        githubUserDetailViewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
-        }
+        //
+        // arguments?.let {
+        //     position = it.getInt(ARG_POSITION)
+        //     username = it.getString(ARG_USERNAME).toString()
+        // }
+        //
+        // val githubUserDetailViewModel =
+        //     ViewModelProvider(
+        //         this,
+        //         ViewModelProvider.NewInstanceFactory()
+        //     )[GithubUserDetailViewModel::class.java]
+        //
+        // if (position == 1) {
+        //     githubUserDetailViewModel.getListFollowers(username)
+        // } else {
+        //     githubUserDetailViewModel.getListFollowing(username)
+        // }
+        //
+        // githubUserDetailViewModel.listUser.observe(viewLifecycleOwner) {
+        //     setListGithubUser(it)
+        // }
+        //
+        // githubUserDetailViewModel.isLoading.observe(viewLifecycleOwner) {
+        //     showLoading(it)
+        // }
     }
 
-    private fun setListGithubUser(listGithubUser: ArrayList<ListGithubUserData>) {
+    private fun setListGithubUser(listGithubUser: ArrayList<GithubUserListData>) {
         showNotFound(listGithubUser.isEmpty())
         val listGithubUserAdapter = ListGithubUserAdapter(listGithubUser)
         val rvListGithubUser = binding.rvListGithubUser
@@ -68,7 +67,7 @@ class GithubUserListFragment : Fragment() {
 
         listGithubUserAdapter.setOnItemClickCallback(object :
             ListGithubUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListGithubUserData) {
+            override fun onItemClicked(data: GithubUserListData) {
                 val githubUserDetailIntent = Intent(context, GithubUserDetailActivity::class.java)
                 githubUserDetailIntent.putExtra(
                     GithubUserDetailActivity.EXTRA_USERNAME,

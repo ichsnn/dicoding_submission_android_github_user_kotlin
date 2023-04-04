@@ -3,12 +3,12 @@ package com.app.githubuser.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.githubuser.dataclass.ListGithubUserData
+import com.app.githubuser.dataclass.GithubUserListData
 import com.app.githubuser.databinding.ItemRowUserBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ListGithubUserAdapter(private val listGithubUser: ArrayList<ListGithubUserData>) :
+class ListGithubUserAdapter(private val listGithubUser: List<GithubUserListData>) :
     RecyclerView.Adapter<ListGithubUserAdapter.ListGithubUserHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -46,6 +46,6 @@ class ListGithubUserAdapter(private val listGithubUser: ArrayList<ListGithubUser
         RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: ListGithubUserData)
+        fun onItemClicked(data: GithubUserListData)
     }
 }
