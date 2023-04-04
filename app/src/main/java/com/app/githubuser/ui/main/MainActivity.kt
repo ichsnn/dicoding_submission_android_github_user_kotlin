@@ -5,10 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubuser.R
 import com.app.githubuser.ui.githubuserdetail.GithubUserDetailActivity
@@ -16,7 +22,14 @@ import com.app.githubuser.adapter.ListGithubUserAdapter
 import com.app.githubuser.databinding.ActivityMainBinding
 import com.app.githubuser.dataclass.GithubUserListData
 import com.app.githubuser.data.Result
+import com.app.githubuser.data.SettingPreferences
+import com.app.githubuser.ui.favorite.FavoriteActivity
+import com.app.githubuser.ui.setting.SettingActivity
+import com.app.githubuser.ui.setting.SettingViewModel
+import com.app.githubuser.ui.setting.SettingViewModelFactory
 import com.app.githubuser.utils.Toaster
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -24,17 +37,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private val viewModel: MainViewModel by viewModels { factory }
 
-    companion object {
-        private const val TAG = "MainActivity"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        factory = ViewModelFactory.getInstance(this)
+        val pref = SettingPreferences.getInstance(dataStore)
+        val settingViewModel = ViewModelProvider(
+            this,
+            SettingViewModelFactory(pref)
+        )[SettingViewModel::class.java]
+
+        settingViewModel.getThemeSettings().observe(this) { isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
+        factory = ViewModelFactory.getInstance()
 
         viewModel.getGithubUserList().observe(this) { handleMainViewModelResult(this, it) }
     }
@@ -68,6 +90,18 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favorite -> {
+                startActivity(Intent(applicationContext, FavoriteActivity::class.java))
+            }
+            R.id.settings -> {
+                startActivity(Intent(applicationContext, SettingActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showLoading(isLoading: Boolean) {

@@ -38,7 +38,7 @@ class GithubUserMainRepository private constructor(
     }
 
     companion object {
-        const val TAG = "GithubUserRepository"
+        const val TAG = "GithubUserMainRepository"
 
         @Volatile
         private var instance: GithubUserMainRepository? = null

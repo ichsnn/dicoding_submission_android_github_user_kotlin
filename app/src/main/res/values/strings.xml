@@ -4,7 +4,7 @@
     <string name="github_username">Username</string>
     <string name="github_url">URL</string>
     <string name="search_github_user">Search Github User</string>
-    <string name="search_hint">Search Github User...</string>
+    <string name="search_hint">Search Github User…</string>
     <string name="user_not_found">User Not Found</string>
     <string name="bio">lorem ipsum dolor sit amet</string>
     <string name="followers_count">0</string>
@@ -15,4 +15,8 @@
     <string name="content_tab_following">Following</string>
     <string name="user_not_followers">%s doesn\'t have any followers yet.</string>
     <string name="user_not_following">%s isn\'t following anybody</string>
+    <string name="favorite">Favorite</string>
+    <string name="not_have_favorite">You not have any favorite user</string>
+    <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

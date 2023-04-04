@@ -52,10 +52,14 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.activity:activity-ktx:1.7.0"
     // Room
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
     implementation 'androidx.room:room-runtime:2.5.1'
     kapt 'androidx.room:room-compiler:2.5.1'
-    //coroutine support
+    // coroutine support
+    implementation "androidx.fragment:fragment-ktx:1.5.6"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1" //viewModelScope
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1" //liveData
     implementation "androidx.room:room-ktx:2.5.1"
+    // Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

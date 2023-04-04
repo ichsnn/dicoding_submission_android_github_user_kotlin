@@ -7,8 +7,4 @@ class MainViewModel(private val githubUserRepository: GithubUserMainRepository) 
     fun getGithubUserList() = githubUserRepository.getGithubUserList()
 
     fun getGithubUserSearch(query: String) = githubUserRepository.getGithubUserSearch(query)
-
-    companion object {
-        private const val TAG = "MainViewModel"
-    }
 }

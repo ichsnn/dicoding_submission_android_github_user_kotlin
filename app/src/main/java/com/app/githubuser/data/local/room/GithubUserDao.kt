@@ -13,5 +13,8 @@ interface GithubUserDao {
     suspend fun deleteFavorite(favoriteUser: FavoriteUserEntity)
 
     @Insert
-    suspend fun insertGithubUser(favoriteUser: FavoriteUserEntity)
+    suspend fun insertFavorite(favoriteUser: FavoriteUserEntity)
+
+    @Query("SELECT EXISTS(SELECT * FROM favorite_user WHERE username = :username)")
+    suspend fun isFavoriteUser(username: String): Boolean
 }

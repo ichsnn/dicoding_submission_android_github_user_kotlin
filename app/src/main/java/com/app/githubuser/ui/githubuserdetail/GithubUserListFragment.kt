@@ -1,8 +1,10 @@
 package com.app.githubuser.ui.githubuserdetail
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +13,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubuser.R
 import com.app.githubuser.adapter.ListGithubUserAdapter
+import com.app.githubuser.data.Result
 import com.app.githubuser.databinding.FragmentGithubUserListBinding
 import com.app.githubuser.dataclass.GithubUserListData
+import com.app.githubuser.utils.Toaster
+
 
 class GithubUserListFragment : Fragment() {
     private lateinit var binding: FragmentGithubUserListBinding
@@ -31,34 +36,45 @@ class GithubUserListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //
-        // arguments?.let {
-        //     position = it.getInt(ARG_POSITION)
-        //     username = it.getString(ARG_USERNAME).toString()
-        // }
-        //
-        // val githubUserDetailViewModel =
-        //     ViewModelProvider(
-        //         this,
-        //         ViewModelProvider.NewInstanceFactory()
-        //     )[GithubUserDetailViewModel::class.java]
-        //
-        // if (position == 1) {
-        //     githubUserDetailViewModel.getListFollowers(username)
-        // } else {
-        //     githubUserDetailViewModel.getListFollowing(username)
-        // }
-        //
-        // githubUserDetailViewModel.listUser.observe(viewLifecycleOwner) {
-        //     setListGithubUser(it)
-        // }
-        //
-        // githubUserDetailViewModel.isLoading.observe(viewLifecycleOwner) {
-        //     showLoading(it)
-        // }
+
+        arguments?.let {
+            position = it.getInt(ARG_POSITION)
+            username = it.getString(ARG_USERNAME).toString()
+        }
+
+        val factory = ViewModelFactory.getInstance(requireContext())
+        val viewModel: GithubUserDetailViewModel by viewModels { factory }
+
+        if (position == 1) {
+            viewModel.getUserFollowers(username)
+                .observe(viewLifecycleOwner) { handleMainViewModelResult(requireContext(), it) }
+        } else {
+            viewModel.getUserFollowing(username)
+                .observe(viewLifecycleOwner) { handleMainViewModelResult(requireContext(), it) }
+        }
     }
 
-    private fun setListGithubUser(listGithubUser: ArrayList<GithubUserListData>) {
+    private fun handleMainViewModelResult(
+        context: Context,
+        result: Result<List<GithubUserListData>>?
+    ) {
+        if (result != null) {
+            when (result) {
+                is Result.Loading -> {
+                    showLoading(true)
+                }
+                is Result.Success -> {
+                    showLoading(false)
+                    setListGithubUser(result.data)
+                }
+                is Result.Error -> {
+                    Toaster.short(context, result.error)
+                }
+            }
+        }
+    }
+
+    private fun setListGithubUser(listGithubUser: List<GithubUserListData>) {
         showNotFound(listGithubUser.isEmpty())
         val listGithubUserAdapter = ListGithubUserAdapter(listGithubUser)
         val rvListGithubUser = binding.rvListGithubUser

@@ -20,7 +20,7 @@
         android:id="@+id/tv_not_found"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_not_found"
+        android:text="@string/not_have_favorite"
         android:textAlignment="center"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

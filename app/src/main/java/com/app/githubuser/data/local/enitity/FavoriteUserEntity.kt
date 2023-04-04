@@ -11,8 +11,8 @@ data class FavoriteUserEntity(
     var username: String = "",
 
     @ColumnInfo(name = "avatarUrl")
-    var avatarUrl: String = "",
+    var avatarUrl: String?,
 
     @ColumnInfo(name = "githubUrl")
-    var githubUrl: String = ""
+    var githubUrl: String?
 )
