@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.viewpager2.widget.ViewPager2
 import com.app.githubuser.R
-import com.app.githubuser.utils.ViewPager2ViewHeightAnimator
 import com.app.githubuser.databinding.ActivityGithubUserDetailBinding
 import com.app.githubuser.dataclass.GithubUserDetailData
 import com.bumptech.glide.Glide
@@ -78,9 +77,7 @@ class GithubUserDetailActivity : AppCompatActivity() {
         val githubUserPagerAdapter = GithubUserPagerAdapter(this)
         githubUserPagerAdapter.username = username
         val viewPager: ViewPager2 = binding.viewPager
-        val viewPager2ViewHeightAnimator = ViewPager2ViewHeightAnimator()
-        viewPager2ViewHeightAnimator.viewPager2 = viewPager
-        viewPager2ViewHeightAnimator.viewPager2?.adapter = githubUserPagerAdapter
+        viewPager.adapter = githubUserPagerAdapter
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
